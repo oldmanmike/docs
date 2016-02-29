@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage{amsmath}
+\title{CS 380: Theory of Computation \\ Assignment 1}
+\author{Michael Carpenter}
+\date{\today}
+\begin{document}
+\maketitle
+
+\begin{itemize}
+  \item[0.10] Let $a = b$
+
+              Let $a,b = 1$
+
+              Then $\frac{1}{a-b} = \frac{1}{0} = undefined$, thus you can't divide each side by $\frac{1}{a-b}$ if it is a given that $a=b$, which it is.
+  \item[0.11.a]
+    \textbf{Claim:} $S(n) = \frac{n(n+1)}{2}$
+
+    \textbf{Base Case:}
+
+    $S(1) = \frac{(1)((1)+1)}{2} = 1$
+
+    \textbf{Inductive Case:}
+
+    $S(k+1) = \frac{k(k+1)}{2} + (k+1) = \frac{(k+1)((k+1)+1)}{2}$
+
+    $S(k+1) = \frac{k(k+1)}{2} + \frac{2(k+1)}{2}$
+
+    $S(k+1) = \frac{k(k+1) + 2(k+1)}{2}$
+
+    $S(k+1) = \frac{(k+1)(k+2)}{2}$
+
+    $S(k+1) = \frac{(k+1)((k+1)+1)}{2}$
+
+  \item[0.11.b]
+    \textbf{Claim:} $C(n) = \frac{(n^4 + 2n^3 + n^2)}{4} = \frac{n^2(n+1)^2}{4}$
+
+    \textbf{Base Case:}
+
+    $C(1) = \frac{1^4 + 2(1)^3 + (1)^2}{4} = \frac{(1)^2((1)+1)^2}{4} = 1 = True$
+
+    \textbf{Inductive Case:}
+
+    $C(k+1) = \frac{k^4 + 2k^3 + k^2}{4} + (k+1)^3 = \frac{(k+1)^2((k+1)+1)^2}{4}$
+
+    $C(k+1) = \frac{k^4 + 2k^3 + k^2}{4} + \frac{4(k+1)^3}{4}$
+
+    $C(k+1) = \frac{k^4 + 2k^3 + k^2 + 4(k+1)^3}{4}$
+
+    $C(k+1) = \frac{k^4 + 2k^3 + k^2 + 4(k^3 + 3k^2 + 3k + 1)}{4}$
+
+    $C(k+1) = \frac{k^4 + 6k^3 + 13k^2 + 12k + 4}{4}$
+
+    $C(k+1) = \frac{(k^2 + 2k + 1)(k^2 + 4k + 4)}{4}$
+
+    $C(k+1) = \frac{(k+1)^2(k+2)^2}{4}$
+
+    $C(k+1) = \frac{(k+1)^2((k+1)+1)^2}{4}$
+
+  \item[0.12] Given it's true that k horses are all the same color, the inductive proof has to show that upon the addition of another horse (k+1), the property of all horses sharing the same color remains true. However, the proof relies on subtracting the number of horses back down to $k$ in order to assert that all horses are the same color - because the induction hypothesis was that $k$ horses are the same color. This doesn't prove that the property holds for ever increasing numbers of horses. It
+    just backsteps to a number of horses $k$ that have already been shown to be the same color, when it should be stepping forward the number of horses and proving the property for that new number and show that provided we know $k$ horses are of one color, then it recursively follows that $(k+1)$ horses are also the same color. It also doesn't show that. The proof doesn't actually step forward the induction hypothesis for $(k+1)$.
+  \item[0.13] Suppose that it's possible for a graph to have two or more nodes where none of the nodes share an equal number of edges. If we have a base case of a graph with just 2 nodes, this would mean one node would have an edge without the other node having an edge, which is impossible given nodes can't have edges with themselves. If we were to add one or more nodes (resulting in a graph with more than 2 nodes), then each node would have to have a unique number of edges compared to every
+    other node in the graph in order to avoid any two nodes having an equal number of edges, with one node having to have 0 edges. In a fully connected graph, each node can only ever have $n-1$ edges without having two edges with the same node or an edge with itself. However, given the nth node in a graph with all nodes possessing a unique number of edges, one node would be forced to have $n-1$ edges in order to remain unique - but there are only $n-2$ nodes available to share edges with given
+    it can't share an edge with itself or the node first node that has no edges at all. Thus, it is impossible for any graph with 2 or more nodes to not contain at least two nodes with equal degrees.
+\end{itemize}
+
+\end{document}
