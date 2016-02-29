@@ -5,14 +5,27 @@
 \begin{document}
 \maketitle
 
-\cite{Pearl94}
-\cite{Chickering95}
-\cite{HeckermanGC95}
-\cite{FriedmanG96}
-\cite{FriedmanGG97}
-\cite{FriedmanLNP00}
-\cite{murphy02}
-\cite{Heckerman08}
+Dagum et al. 1992\cite{Dagum92} introduced the concept of a dynamic network model (DNM) that would allow for the representation of probabilistic knowledge in graph form, which allowed for inference based off of said knowledge. This "belief-network" allows for dynamic and flexible forecasts to be made based on inferred probabilities from the graph itself. For the authors, the main purpose of DNMs was to model a time series of market projections for U.S. car sales in Japan, but DNMs are clearly
+useful for any situation where some kind of probabilistic knowledge is known prior and can be related in some way. Such information can be modeled as a graph of probabilistic variables, where the traversal of the graph depends on the observations or actions that could take place. DNMs (and belief networks in general) are useful for expressing probable yet fuzzy relationships between certain nodes of knowledge.
+
+Pearl 1994\cite{Pearl94} introduced a calculus of actions (aka do-calculus) that provides a symbolic model for expressing probabilistic and causal information of belief networks. He claims that the more graphical models, such as Bayesian networks, do not treat the actions as first-class entities in the expression of probabilities, but rather are marginalized as "foreign entities". Using the proposed calculus, Pearl shows how his symbolic mechanics can take in probabilistic and causal information as input and
+produce a probabilistic expression of how effectful actions and observations can be. This could provide a better system for using belief systems for decision making and planning since it can be calculated which actions and observations will produce a favorable probability. Likewise, it could also be used in learning as it integrates the methods of "learning by manipulation and learning by observation."
+
+Heckerman et al. 1995\cite{HeckermanGC95} introduce a scoring metric for learning Bayesian networks that can take a prior Bayesian network and statistical data as inputs and returns an improved Bayesian network through the integration of and training on that statistical data. Their findings are significant because they integrate dual assumptions on parameter modularity (the relationship rearranging a Bayesian networks parameters has) and event equivalence (two Bayesian networks with the same
+independent assertions will obtain the same score with the given scoring metric) into their proposed scoring metric.
+
+Chickering et al. 1995\cite{Chickering95} show that using Bayesian metrics introduced by Heckerman et al. to calculate the posterior probability of a Bayesian network is NP complete. The paper itself walks through the actual proofs involved.
+
+Friedman et al. 1996\cite{FriedmanG96} have tried experimenting with local structure in the conditional probability distributions of learning Bayesian networks in the hopes that a stronger correlation between the interactions modeled in the network and the interactions visible in the data. In the paper, they deployed trees and tables as data structures to organize local Bayesian networks into an overall structure that was more reflective of the data being modeled by the Bayesian networks in the first place. This
+paper is useful in that it explores how well Bayesian networks compose with other structures such as trees and tables, revealing how compatible Bayesian networks are to being nested in other machine learning techniques.
+
+Friedman et al. 1997\cite{FriedmanGG97} uses factored Bayesian networks to induce classifiers from data, where a classifier is some label or category that is representative of a certain set of attributes signature to a given class. In situations where a data set already has a desired set of classified patterns that a user would like the computer to parse the data by, it turns out naive Bayesian classifiers are quite competitive with the alternate solutions available. While they found good
+guarantees when it came to time complexity and quite competitive in efficiency, the same couldn't be said for accuracy as actually scoring the classification is intractable - suggesting approximation is the best that can be done here.
+
+Murphy 2002\cite{murphy02} introduces Dynamic Bayesian Networks as an alternative way to model sequential data over some more popular methods such as Hidden Markov models and Kalman filter models. Worth noting about this dissertation is the contribution of a way to represent Hierarchical Hidden Markov models as Dynamic Bayesian Networks and subsequently enables a reduced time complexity for inference os $O(T)$ rather than $O(T^3)$. The paper, among many other things investigates and summarizes the
+representation, inference, and learning of Hidden Markov Models and Kalman Filter Models before converting numerous variations of these models into equivalent Dynamic Bayesian Networks.
+
+Heckerman 2008\cite{Heckerman08} is a 2008 comprehensive introduction to the topic of Bayesian networks which is proving to be quite useful as it covers a lot of material left out of general resources like Wikipedia. In addition to presenting the core concepts (and providing a nifty notation key at the end for decrypting the mathematics behind Bayesian networks), the paper also introduces Bayesian networks application to machine learning in the context of supervised and unsupervised learning.
 
 \bibliographystyle{plain}
 \bibliography{sources}
