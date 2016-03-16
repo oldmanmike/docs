@@ -1,5 +1,5 @@
 \documentclass{article}
-\title{Bayesian Networks \\ A Literary Summary}
+\title{Bayesian Networks: \\ A Literary Summary}
 \author{Michael Carpenter}
 \date{\today}
 \begin{document}
@@ -13,4 +13,16 @@ facilitate the combination of domain knowledge and data
 
 allow one to learn about causal relationships
 
+$P(G,S,R)=P(G|S,R)P(S|R)P(R)$
+
+\section{History}
+
+Bayesian networks were first proposed by Judea Pearl in 1985 as a way of modeling inferential reasoning, that is, taking somewhat disorganized "fuzzy" information in our world and deriving some imperfect but probable belief about the state of things. Due to the "fuzzy" nature of the data being worked with, it was only practical that such a model be based off of probability theory. In probability theory, such modeling the probability of such beliefs, and ones whose value is conditional by the value of other dependencies, can be already be accomplished via joint probability functions and dependencies. However, such probabilistic propositions are not ideal either for humans or for the computer. On the human front, a joint distribution description doesn't visually convey the most relevant variables influencing a given condition. 
+
+\cite{murphy02}
+
+\section{Applications}
+
+\bibliographystyle{plain}
+\bibliography{sources}
 \end{document}
