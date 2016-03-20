@@ -5,17 +5,26 @@
 \begin{document}
 \maketitle
 
-Bayesian Networks are probabilistic belief graphs where a collection of random variables constitute the vertices of the graph and the conditional dependencies constitute the edges. The term "conditional dependencies" in this context refers to a random variable whose value effects the probability of another random variable that takes that given variable as a dependency. Taken purely at face value, a Bayesian Network is simply a visualization of an interconnected web of random variables that are related in certain ways, such that the value of one random variables affects the probability of some other random variable that is in some way dependent on it. It should be stated now that the word "probability" doesn't mean the exact same thing in the context of Bayesian Networks as it does in, say, physics. If I flip a coin, there is a physical probability of about 50\% that the coin will land on tails instead of heads. This is because we know exactly what coins are and we can easily test this by flipping a coin a bunch of times and measuring the average of all our coin flips. We can easily quantify that type of probability. Bayesian Networks, on the other hand, are built on what's called Bayesian probability, which is instead interested in the degree of belief that a random variable might have one value over another. An example of Bayesian probability would be the degree to which we can believe that there is life in the universe. We have a very incomplete picture of the universe, let alone life outside of our own planet, so it's impossible for us to discuss the probability Bayesian Networks can be pretty nebulous without examples, so let's reword this definition in terms of something more concrete.
+Bayesian Networks are probabilistic belief graphs where a collection of random variables constitute the vertices of the graph and the conditional dependencies constitute the edges. The term "conditional dependencies" in this context refers to a random variable whose value effects the probability of another random variable that takes that given variable as a dependency. Taken purely at face value, a Bayesian Network is simply a visualization of an interconnected web of random variables that are related in certain ways, such that the value of one random variables affects the probability of some other random variable that is in some way dependent on it.
+  It should be stated now that the word "probability" doesn't mean the same thing in the context of Bayesian Networks as it does in say physics. If I flip a coin, there is a physical probability of about 50\% that the coin will land on tails instead of heads. This is because we know exactly what coins are as objects and we can easily test the actual probability of the coin flip by flipping a coin a bunch of times and measuring the average of all those flips. We can easily quantify that type of probability. Bayesian Networks, on the other hand, are built on what's known as \emph{Bayesian probability}, which is instead interested in the \emph{degree of belief} that a random variable might have on one value over another. An example of Bayesian probability would be the degree to which we can believe that there is life in the universe. We have a very incomplete picture of the universe, let alone life outside of our own planet, so it's impossible for us to discuss the probability of life beyond our planet by factoring in all the variables at play. We don't know all the variables. We can only reason in terms of beliefs with the incomplete set of variables currently available to us. Turns out there are a lot of situations in real life where decisions must be made on present day beliefs as it's not practical to model a problem perfectly or wait for perfect information about the problem to become available. In such situations we can merely figure out general a "rule of thumb" heuristic around which to make decisions, a belief which is probably true \emph{to a degree}. This is what Bayesian probability and Bayesian networks work with as their "probability" - fuzzy inferences about the probable state that the world is in.
+
+Before delving into the Bayesian network itself, we should investigate the basics of Bayesian probability itself as this is the statistical logic that Bayesian Networks visualize in the first place and understanding this logic is key to fully recognizing the value of Bayesian Networks in the first place. Take the mathematical expression below:
+
+
+Byesian Networks can be pretty nebulous without examples, so let's reword this definition in terms of something more concrete.
 
 However, Bayesian Networks turn out to have quite a bit of utility for four reasons\cite{}. First, they allow us to take a pragmatic and efficient approach towards filtering relevant random variables from less relevant random variables. This is important because it is computationally prohibitive to take into account every and all random variables that could be in play in the universe when trying to infer the probable value of a specific random variable - only a select subset of random variables meaningfully inform some other random variable.
 
+Readily handle incomplete data sets.
 
 
 Efficient and principled approach for avoiding the over fitting of data.
 
-facilitate the combination of domain knowledge and data
+Facilitate the combination of domain knowledge and data
 
-allow one to learn about causal relationships
+Allow one to learn about causal relationships
+
+-----------------------------------------------------
 
 How do we know the right degree of belief? Probability assessment.
 
