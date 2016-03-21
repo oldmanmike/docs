@@ -1,48 +1,42 @@
-\documentclass{article}
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
 \title{Bayesian Networks: \\ A Literary Summary}
 \author{Michael Carpenter}
 \date{\today}
 \begin{document}
 \maketitle
+\spacing{1.25}
 
-Bayesian Networks are probabilistic belief graphs where a collection of random variables constitute the vertices of the graph and the conditional dependencies constitute the edges. The term "conditional dependencies" in this context refers to a random variable whose value effects the probability of another random variable that takes that given variable as a dependency. Taken purely at face value, a Bayesian Network is simply a visualization of an interconnected web of random variables that are related in certain ways, such that the value of one random variables affects the probability of some other random variable that is in some way dependent on it.
-  It should be stated now that the word "probability" doesn't mean the same thing in the context of Bayesian Networks as it does in say physics. If I flip a coin, there is a physical probability of about 50\% that the coin will land on tails instead of heads. This is because we know exactly what coins are as objects and we can easily test the actual probability of the coin flip by flipping a coin a bunch of times and measuring the average of all those flips. We can easily quantify that type of probability. Bayesian Networks, on the other hand, are built on what's known as \emph{Bayesian probability}, which is instead interested in the \emph{degree of belief} that a random variable might have on one value over another. An example of Bayesian probability would be the degree to which we can believe that there is life in the universe. We have a very incomplete picture of the universe, let alone life outside of our own planet, so it's impossible for us to discuss the probability of life beyond our planet by factoring in all the variables at play. We don't know all the variables. We can only reason in terms of beliefs with the incomplete set of variables currently available to us. Turns out there are a lot of situations in real life where decisions must be made on present day beliefs as it's not practical to model a problem perfectly or wait for perfect information about the problem to become available. In such situations we can merely figure out general a "rule of thumb" heuristic around which to make decisions, a belief which is probably true \emph{to a degree}. This is what Bayesian probability and Bayesian networks work with as their "probability" - fuzzy inferences about the probable state that the world is in.
+\section{Introduction}
 
-Before delving into the Bayesian network itself, we should investigate the basics of Probability Theory itself as this is the statistical logic that Bayesian Networks visualize in the first place and understanding some of the core concepts of probability theory will greatly aid an explanation of Bayesian Networks in the first place. First, some simple vocabulary:
+Bayesian Networks are probabilistic belief graphs where a collection of random variables constitute the vertices of the graph and the conditional dependencies constitute the edges\cite{wiki:Bayesian_network}. The term "conditional dependencies" in this context refers to a random variable whose value effects the probability of another random variable that takes that given variable as a dependency. Taken purely at face value, a Bayesian Network is simply a visualization of an interconnected web of random variables that are
+related in certain ways, such that the value of one random variables affects the probability of some other random variable that is in some way dependent on it. However, it turns out that Bayesian Networks are a great way, both for a human and a computer, to represent knowledge in an uncertain domain and perform inference within that domain. Many problem domains in the real-world regularly produce computational questions whose answers are either impossible or intractable to compute in a
+classically logical way. However, many of these same problems can be tackled in a reasonable fashion by loosening up on the required certainty of the target answer, often because the problem domain contains a lot of uncertainty and incomplete information in the first place. By settling for an \emph{approximate} or \emph{probable} answer rather than a certain one, we can reduce a variety of formally intractable problems into ones that can be solved with much more mundane means. Bayesian Networks
+(also known as belief networks and probabilistic networks) are great for taking limited, incomplete, or uncertain information and representing the causal and influential relationships between the various variables at play within the given information. 
+
+\section{Probability Theory Background}
+
+Before delving into the Bayesian network itself, we should investigate the basics of Probability Theory itself as this is the statistical logic that Bayesian Networks visualize in the first place and understanding some of the core concepts of probability theory will greatly aid an explanation of Bayesian Networks in the first place. First, some simple vocabulary\cite{Russell2003}:
 
 \begin{itemize}
-  \item[Preference] -
-  \item[Degree of Belief] -
-  \item[Belief State] -
-  \item[Random Variable] -
-  \item[Probability Distribution] -
-  \item[Joint Probability Distribution] -
+  \item \textbf{Preposition} - A statement or expression that something is the case.
+  \item \textbf{Random Variable} - Some state in the world whose value cannot be easily deduced in a purely logical manner, that is, there is irreducible uncertainty in the value of said random variable due to the calculation of such a value being either too expensive, too impractical, or just downright impossible given the available information and resources.
+  \item \textbf{Degree of Belief} - The forecasted probability that a certain preposition is the case or that a random variable has a certain value.
+  \item \textbf{Preference} - A potentially illogical choice made 
+  \item \textbf{Belief State} - The global view of all probabilities of each random variable in question at any given time.
+  \item \textbf{Probability Distribution} - A collection of probability values for a set of random variables.
+  \item \textbf{Joint Probability Distribution} - A collection of probability values for all combinations of a set of random variables.
 \end{itemize}
 
+  It should be stated now that the word "probability" doesn't mean the same thing in the context of Bayesian Networks as it does in say physics. If I flip a coin, there is a physical probability of about 50\% that the coin will land on tails instead of heads. This is because we know exactly what coins are as objects and we can easily test the actual probability of the coin flip by flipping a coin a bunch of times and measuring the average of all those flips. We can easily quantify that type of probability. Bayesian Networks, on the other hand, are built on what's known as \emph{Bayesian probability}, which is instead interested in the \emph{degree of belief} that a random variable might have on one value over another. An example of Bayesian probability would be the degree to which we can believe that there is life in the universe. We have a very incomplete picture of the universe, let alone life outside of our own planet, so it's impossible for us to discuss the probability of life beyond our planet by factoring in all the variables at play. We don't know all the variables. We can only reason in terms of beliefs with the incomplete set of variables currently available to us. Turns out there are a lot of situations in real life where decisions must be made on present day beliefs as it's not practical to model a problem perfectly or wait for perfect information about the problem to become available. In such situations we can merely figure out general a "rule of thumb" heuristic around which to make decisions, a belief which is probably true \emph{to a degree}. This is what Bayesian probability and Bayesian networks work with as their "probability" - fuzzy inferences about the probable state that the world is in.
 
-
-Byesian Networks can be pretty nebulous without examples, so let's reword this definition in terms of something more concrete.
-
-However, Bayesian Networks turn out to have quite a bit of utility for four reasons\cite{}. First, they allow us to take a pragmatic and efficient approach towards filtering relevant random variables from less relevant random variables. This is important because it is computationally prohibitive to take into account every and all random variables that could be in play in the universe when trying to infer the probable value of a specific random variable - only a select subset of random variables meaningfully inform some other random variable.
-
-Readily handle incomplete data sets.
-
-
-Efficient and principled approach for avoiding the over fitting of data.
-
-Facilitate the combination of domain knowledge and data
-
-Allow one to learn about causal relationships
-
------------------------------------------------------
-
-How do we know the right degree of belief? Probability assessment.
-
-$P(G,S,R)=P(G|S,R)P(S|R)P(R)$
+However, Bayesian Networks turn out to have quite a bit of utility for four reasons\cite{Heckerman08}. First, they allow us to take a pragmatic and efficient approach towards filtering relevant random variables from less relevant random variables. This is important because it is computationally prohibitive to take into account every and all random variables that could be in play in the universe when trying to infer the probable value of a specific random variable - only a select subset of random variables meaningfully inform some other random variable.
 
 \section{History}
 
-Bayesian networks were first proposed by Judea Pearl in 1985 as a way of modeling inferential reasoning, that is, taking somewhat disorganized "fuzzy" information in our world and deriving some imperfect but probable belief about the state of things. Due to the "fuzzy" nature of the data being worked with, it was only practical that such a model be based off of probability theory. In probability theory, such modeling the probability of such beliefs, and ones whose value is conditional by the value of other dependencies, can be already be accomplished via joint probability functions and dependencies. However, such probabilistic propositions are not ideal either for humans or for the computer. On the human front, a joint distribution description doesn't visually convey the most relevant variables influencing a given condition. 
+Bayesian networks were first proposed by Judea Pearl\cite{pearl85} in 1985 as a way of modeling inferential reasoning, that is, taking somewhat disorganized "fuzzy" information in our world and deriving some imperfect but probable belief about the state of things. Due to the "fuzzy" nature of the data being worked with, it was only practical that such a model be based off of probability theory. In probability theory, such modeling the probability of such beliefs, and ones whose value is conditional by the value of other dependencies, can be already be accomplished via joint probability functions and dependencies. However, such probabilistic propositions are not ideal either for humans or for the computer. On the human front, a joint distribution description doesn't visually convey the most relevant variables influencing a given condition. 
 
 \cite{murphy02}
 
