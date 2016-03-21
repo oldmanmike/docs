@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pdflatex bayesian_networks.tex
+bibtex bayesian_networks.aux
+pdflatex bayesian_networks.tex
+pdflatex bayesian_networks.tex
