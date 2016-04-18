@@ -1,0 +1,49 @@
+\documentclass{article}
+\title{Theory of Computation: \\ Assignment 5}
+\author{Michael Carpenter}
+\date{\today}
+\begin{document}
+\maketitle
+
+\begin{itemize}
+  \item 4.2 - X = "On input $\langle A \rangle$, where A is a DFA:
+    \begin{itemize}
+      \item 1 - Construct DFA R that accepts $\overline{L(A)}$ (We know know what to do from Theorem 4.4)
+      \item 2 - Mark the start state of A.
+      \item 3 - Mark any state that has a transition coming into it from any state that is already marked. Repeat until no new states get marked:
+      \item 4 - If no accepted state is marked, accept. Otherwise reject."
+    \end{itemize}
+  \item 4.4 - Y = "On input $\langle G \rangle$, where G is a CFG:
+    \begin{itemize}
+      \item 1 - We can use the proof procedure in theorem 4.7 and start by converting G into an equivalent grammar in Chomsky normal form.
+      \item 2 - According to theorem 4.7, run a TM Z through a list of all derivations with 2n - 1 steps, where n is the length of $w$; except if n = 0, the instead list all derivations in one step.
+      \item 3 - If Z accepts, accept. Otherwise if it rejects, reject."
+    \end{itemize}
+  \item 4.6
+    \begin{itemize}
+      \item a - False
+      \item b - True
+      \item c - False
+      \item d - True
+      \item e - True
+      \item f - True
+    \end{itemize}
+  \item 4.7 - Suppose there is a correspondence $f$ between $B$ and $N$ that must pair all members of $B$ with all members $N$. Using the Cantor's diagonalization method, we can show that a correspondence cannot actually hold because for any value of $b$, $f(b)$ can always differ by the $bth$ element in the sequence of $0$s and $1$s.
+  \item 4.8 - We can show that $T$ is countable by applying functions that performs a one-to-one mapping of the countable domains of $i$, $j$, and $k$ to different yet countable codomains for all natural numbers. For instance, $f(i) = 3 + i$, $f(j) = 5 * j$, and $f(k) = 7^{k}$ composed together via multiplication as $f(i,j,k) = (3 + i)(5 * j)(7^{k})$ maps $(i,j,k)$ to a codomain of the same size for all $N$.
+  \item 4.13 - A = "On input $\langle R, S \rangle$, where R is a subset of S:
+    \begin{itemize}
+      \item 1 - Convert the regular expression R and S into equivalent NFAs A and B respectively using the procedure in Theorem 1.54.
+      \item 2 - Run TM X on input $\langle R \rangle$ and $\langle S \rangle$.
+      \item 3 - If X accepts $\langle R \rangle$, but not $\langle S \rangle$, reject. If X accepts $\langle S \rangle$ but not $\langle R \rangle$, accept. If X accepts $\langle S \rangle$ and $\langle R \rangle$, accept." 
+    \end{itemize}
+  \item 4.21 - S = "On input $\langle M \rangle$, where M is a DFA that accepts $w^{R}$ whenever it accepts $w$:
+    \begin{itemize}
+      \item 1 - Construct DFA R1 that accepts $w^{R}$ and a DFA R2 that accepts $w$. Any $w$ that can be reversed is finite, thus if the DFA can accept a finite $w$ and a finite $w?{R}$, then S is decidable.
+      \item 2 - Union R1 and R2 together
+      \item 3 - Mark the start state of M.
+      \item 4 - Mark any state that has a transition coming into it from any state that is already marked. Repeat until no new states get marked:
+      \item 5 - If no accepted state is marked, accept. Otherwise reject."
+    \end{itemize}
+\end{itemize}
+
+\end{document}
