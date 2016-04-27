@@ -1,0 +1,91 @@
+\documentclass{article}
+\title{Theory of Computation: Assignment 7}
+\author{Michael Carpenter}
+\date{\today}
+\begin{document}
+\maketitle
+
+\begin{itemize}
+  \item 7.3 - (a) is relatively prime, because:
+    \begin{itemize}
+      \item \textbf{a.)} gcd(10505,1274) \\
+        $313 \leftarrow 10505$ mod $1274$ \\
+        $(1274,313)$ \\
+        $22 \leftarrow 1274$ mod $313$ \\
+        $(313,22)$ \\
+        $5 \leftarrow 313$ mod $22$ \\
+        $(22,5)$ \\
+        $2 \leftarrow 22$ mod $5$ \\
+        $(5,2)$ \\
+        $1 \leftarrow 5$ mod $2$ \\
+        $(2,1)$ \\
+        $0 \leftarrow 2$ mod $1$ \\
+        $(1,0)$ \\
+        $x = 1, accept$ \\
+      \item \textbf{b.)} gcd(8029,7289) \\
+        $740 \leftarrow 8029$ mod $7289$ \\
+        $(7289,740)$ \\
+        $629 \leftarrow 7289$ mod $740$ \\
+        $(740,629)$ \\
+        $111 \leftarrow 740$ mod $629$ \\
+        $(629,111)$ \\
+        $74 \leftarrow 629$ mod $111$ \\
+        $37 \leftarrow 111$ mod $74$ \\
+        $(74,37)$ \\
+        $0 \leftarrow 74$ mod $37$ \\
+        $(37,0)$ \\
+        $x = 37, reject$
+    \end{itemize}
+  \item 7.5 - \\
+    $(x\lor y)\land(x\lor\overline{y})\land(\overline{x}\lor y)\land(\overline{x}\lor\overline{y})$ \\
+    $1 \land 1 \land 1 \land 0$ \\
+    $0$ \\
+  \item 7.6 - \\
+    For Union:\\
+    $V_{U}$ = "On input $\langle A, B \rangle$:
+    \begin{itemize}
+      \item 1. Construct TMs $M_{A}$ and $M_{B}$ that decide $A$ and $B$ respectively.
+      \item 2. Run $M_{A}$ and $M_{B}$ on $A$ and $B$ respectively.
+      \item 3. If $M_{A}$ or $M_{B}$ accepts, accept; if both reject, reject."
+    \end{itemize}
+    Both will decide in polynomial time, so the union of the two will decide in one of the two polynomial times. \\
+    \\
+    For Concatenation:\\
+    $V_{Con}$ = "On input $\langle A, B \rangle$:
+    \begin{itemize}
+      \item 1. Construct TMs $M_{A}$ and $M_{B}$ that decide $A$ and $B$ respectively.
+      \item 2. Run $M_{A}$ on $A$, then $M_{B}$ on $B$.
+      \item 3. If $M_{A}$ and $M_{B}$ accepts, accept; if either reject, reject."
+    \end{itemize}
+    Both will decide in polynomial time, so if the time complexity of $A$ is $O(n^{k_{A}})$ and the time complexity of $B$ is $O(n^{k_{B}})$, then the concatenated time complexity will be $O(n^{k_{A}} + n^{k_{B}})$. \\
+    \\
+    For Complement:\\
+    $V_{Con}$ = "On input $\langle A \rangle$:
+    \begin{itemize}
+      \item 1. Construct TM $M_{A}$ that decide $A$.
+      \item 2. Run $M_{A}$ on $A$.
+      \item 3. If $M_{A}$ accepts, reject; if reject, accept."
+    \end{itemize}
+    The only difference in time complexity here is returning the complemented answer, which is just a constant cost, so $P$ is closed for complement as well.
+
+  \item 7.8 - Stage 1 of the algorithm on page 185 of the book only happens once, so we can ascribe it a cost of 1. However, the algorithm then enters into a loop to to mark all the nodes in the graph. In a naive worst case, we could scan all nodes during each pass, in which case we'd have a cost of $n^{2}$. The fact that we got to mark off a node almost for free at the beginning means we can avoid 1 full pass making it the cost $1 + n^{2} - n$. However, we then have to make a final pass at the end to check for any further unmarked nodes, so our final cost is $1 + n^{2} - n + n$. So our worst-case time complexity is $O(n^{2})$. The algorithm can be decided in deterministic polynomial time.
+  \item 7.9 - On input $\langle G,e \rangle$: \\
+    \begin{itemize}
+      \item 1. Test whether G has at least 3 edges; if edges < 3, reject; otherwise continue
+      \item 2. Repeat for each edges in G:
+        \begin{itemize}
+          \item Check if the two nodes connected by edge have a common third node, if one is found, break from loop.
+        \end{itemize}
+      \item 3. If two nodes with a common third connected node was found, then accept; otherwise reject.
+    \end{itemize}
+    Here, we can say that stage 1 will have a worst-case cost of 3 as it only needs to look at three edges to know if the graph is capable of having a 3-clique. Continuing on to the loop, for all n edges between some pair of nodes a and b, we need to compare all of a's other connections to that of b and see if they share a common node. This could, in the worst-case, require comparing each of a's edges $(k_{a})$ to each of b's edges $(k_{b})$. This will cost $O(n^{3})$. So for a given graph $G$ with $e$ edges, a deterministic polynomial time solution exists, thus it is in the P class.
+  \item 7.12 - \\
+    V = "On input $\langle G,H \rangle$:
+    \begin{itemize}
+      \item 1. Test whether $G$ and $H$ have the same number of nodes and edges.
+      \item 2. Test whether for both sets of nodes in $G$ and $H$, there is a bijection function that can map nodes from $G$ to $H$.
+      \item 3. If both pass, accept; otherwise, reject."
+    \end{itemize}
+\end{itemize}
+
+\end{document}
