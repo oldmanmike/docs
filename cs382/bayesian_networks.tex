@@ -2,6 +2,13 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
 \usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows}
+
+\newcolumntype{M}[1]{D{.}{.}{1.#1}}
 \title{Bayesian Networks: \\ A Literary Summary}
 \author{Michael Carpenter}
 \date{\today}
@@ -16,36 +23,96 @@ related in certain ways, such that the value of one random variables affects the
 classically logical way. However, many of these same problems can be tackled in a reasonable fashion by loosening up on the required certainty of the target answer, often because the problem domain contains a lot of uncertainty and incomplete information in the first place. By settling for an \emph{approximate} or \emph{probable} answer rather than a certain one, we can reduce a variety of formally intractable problems into ones that can be solved with much more mundane means. Bayesian Networks
 (also known as belief networks and probabilistic networks) are great for taking limited, incomplete, or uncertain information and representing the causal and influential relationships between the various variables at play within the given information. 
 
-\section{Probability Theory Background}
+\section{History}
+
+Bayesian networks were first proposed by Judea Pearl\cite{pearl85} in 1985 as a way of modeling inferential reasoning, that is, taking somewhat disorganized "fuzzy" information in our world and deriving some imperfect but probable belief about the state of things. Due to the "fuzzy" nature of the data being worked with, it was only practical that such a model be based off of probability theory. In probability theory, such modeling the probability of such beliefs, and ones whose value is conditional by the value of other dependencies, can be already be accomplished via joint probability functions and dependencies. However, such probabilistic propositions are not ideal either for humans or for the computer. On the human front, a joint distribution description doesn't visually convey the most relevant variables influencing a given condition. 
+
+\section{Probability Theory}
 
 Before delving into the Bayesian network itself, we should investigate the basics of Probability Theory itself as this is the statistical logic that Bayesian Networks visualize in the first place and understanding some of the core concepts of probability theory will greatly aid an explanation of Bayesian Networks in the first place. First, some simple vocabulary\cite{Russell2003}:
 
 \begin{itemize}
   \item \textbf{Preposition} - A statement or expression that something is the case.
   \item \textbf{Random Variable} - Some state in the world whose value cannot be easily deduced in a purely logical manner, that is, there is irreducible uncertainty in the value of said random variable due to the calculation of such a value being either too expensive, too impractical, or just downright impossible given the available information and resources.
+  \item \textbf{Conditional Dependency} - The term used to refer to the probabilistic influence the value of a random variable might have other random variables.
   \item \textbf{Degree of Belief} - The forecasted probability that a certain preposition is the case or that a random variable has a certain value.
-  \item \textbf{Preference} - A potentially illogical choice made 
+  \item \textbf{Preference} - A potentially illogical choice, as in the decision was made for inferred reasons (beliefs). And those inferences could be wrong.
   \item \textbf{Belief State} - The global view of all probabilities of each random variable in question at any given time.
   \item \textbf{Probability Distribution} - A collection of probability values for a set of random variables.
   \item \textbf{Joint Probability Distribution} - A collection of probability values for all combinations of a set of random variables.
 \end{itemize}
 
+Bayesian networks also have a pretty distinct visual representation as graphs. Each \emph{random variable} forms a node in a Bayesian network graph, while the edges of the graph represent dependencies between different random variables. For each random variable, there is an associated conditional probability enumerating the probability of the given random variable having a certain value based off of the values of its conditionally dependent random variables. The advantage of this presentation is that it makes it very clear what variables are related to what and by how much. Furthermore, it can allow one to visually isolate branches of conditionally dependent variables from other branches of variables that don't seem to be causally related in any significant way. Below is an example of a relatively tightly knit Bayesian network in which we model the causal relationships between the existence of rain, the presence of an active sprinkler, and the case of the grass being wet. By looking at the matrices, we can note some interesting details. For instance, it's more likely to not rain than it is to rain. Subsequently, it's very unlikely that someone is running a sprinkler in the rain, though it is possible. It's also slightly less likely that wet grass is caused by an active sprinkler than it is by rain.
+
+\begin{tikzpicture}[
+    node distance=1cm and 0cm,
+    mynode/.style={draw,ellipse,text width=2cm,align=center}
+  ]
+  \node[mynode] (sp) {Spinkler};
+  \node[mynode,below right=of sp] (gw) {Grass Wet};
+  \node[mynode,above right=of gw] (ra) {Rain};
+  \path (ra) edge[-latex] (sp)
+  (sp) edge[-latex] (gw)
+  (gw) edge[latex-] (ra);
+  \node[left=of sp,left=0.5cm of sp]
+  {
+    \begin{tabular}{cM{2}M{2}}
+      \toprule
+      & \multicolumn{2}{c}{Sprinkler} \\
+      Rain & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{F} \\
+      \cmidrule(r){1-1} \cmidrule(1){2-3}
+      F & 0.4 & 0.6 \\
+      T & 0.01 & 0.99 \\
+      \bottomrule
+    \end{tabular}
+  };
+  \node[left=of sp,right=0.5cm of ra]
+  {
+    \begin{tabular}{M{1}M{1}}
+      \toprule
+      \mulicolumn{2}{c}{Rain} \\
+      \mulicolumn{1}{c}{T} & \multicolumn{1}{c}{F} \\
+      \cmidrule{1-2}
+      0.2 & 0.8 \\
+      \bottomrule
+    \end{tabular}
+  };
+  \node[left=of sp,below=0.5cm of gw]
+  {
+    \begin{tabular}{ccM{2}M{2}}
+      \toprule
+      & & \multicolumn{2}{c}{Grass Wet} \\
+      \multicolumn{2}{1}{Sprinkler Rain} & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{F} \\
+      \cmidrule(r){1-2}\cmidrule(1){3-4}
+      F & F & 0.0 & 1.0 \\
+      F & T & 0.8 & 0.2 \\
+      T & F & 0.9 & 0.1 \\
+      T & T & 0.99 & 0.01 \\
+      \bottomrule
+    \end{tabular}
+  };
+
+\end{tikzpicture}
+
   It should be stated now that the word "probability" doesn't mean the same thing in the context of Bayesian Networks as it does in say physics. If I flip a coin, there is a physical probability of about 50\% that the coin will land on tails instead of heads. This is because we know exactly what coins are as objects and we can easily test the actual probability of the coin flip by flipping a coin a bunch of times and measuring the average of all those flips. We can easily quantify that type of probability. Bayesian Networks, on the other hand, are built on what's known as \emph{Bayesian probability}, which is instead interested in the \emph{degree of belief} that a random variable might have on one value over another. An example of Bayesian probability would be the degree to which we can believe that there is life in the universe. We have a very incomplete picture of the universe, let alone life outside of our own planet, so it's impossible for us to discuss the probability of life beyond our planet by factoring in all the variables at play. We don't know all the variables. We can only reason in terms of beliefs with the incomplete set of variables currently available to us. Turns out there are a lot of situations in real life where decisions must be made on present day beliefs as it's not practical to model a problem perfectly or wait for perfect information about the problem to become available. In such situations we can merely figure out general a "rule of thumb" heuristic around which to make decisions, a belief which is probably true \emph{to a degree}. This is what Bayesian probability and Bayesian networks work with as their "probability" - fuzzy inferences about the probable state that the world is in.
 
-However, Bayesian Networks turn out to have quite a bit of utility for four reasons\cite{Heckerman08}. First, they allow us to take a pragmatic and efficient approach towards filtering relevant random variables from less relevant random variables. This is important because it is computationally prohibitive to take into account every and all random variables that could be in play in the universe when trying to infer the probable value of a specific random variable - only a select subset of random variables meaningfully inform some other random variable.
-
-\section{History}
-
-Bayesian networks were first proposed by Judea Pearl\cite{pearl85} in 1985 as a way of modeling inferential reasoning, that is, taking somewhat disorganized "fuzzy" information in our world and deriving some imperfect but probable belief about the state of things. Due to the "fuzzy" nature of the data being worked with, it was only practical that such a model be based off of probability theory. In probability theory, such modeling the probability of such beliefs, and ones whose value is conditional by the value of other dependencies, can be already be accomplished via joint probability functions and dependencies. However, such probabilistic propositions are not ideal either for humans or for the computer. On the human front, a joint distribution description doesn't visually convey the most relevant variables influencing a given condition. 
-
-\cite{murphy02}
+However, Bayesian Networks turn out to have quite a bit of utility for four reasons\cite{Heckerman08}. First, they allow us to take a pragmatic and efficient approach towards filtering relevant random variables from less relevant random variables. This is important because it is computationally prohibitive to take into account every and all random variables that could be in play in the universe when trying to infer the probable value of a specific random variable - only a select subset of random variables meaningfully inform some other random variable. Furthermore, Bayesian networks provide an interesting and useful model for learning as you can think of a Bayesian network as a snapshot of one's initial beliefs.\cite{HeckermanGC95} You can then dynamically update the network with new beliefs as an agent gains more domain knowledge over the course of a computation.\cite{murphy02} 
 
 \section{Applications}
 
-\subsection{Probabilistic Programming}
-One of the most interesting applications of Bayesian networks is probabilistic programming paradigm and the zoo of research languages currently under works to explore this new paradigm. At its core, a computer program written in a probabilistic programming languages is, if nothing else, a probability distribution of the domain being modeled by the programmer. 
+Bayesian inference itself is incredibly productive when reasoning about areas of uncertainty and incomplete information as it lets us fill in the blanks as to what we missed. As it turns out, such a use-case has wide-spread relevance in today's industry, especially in an era of Big Data. "Big Data" is one of the more transformative trends that has been the buzz word labeling a lot of recent developments of solutions to what have historically been fuzzy problems whose solutions follow very complicated and incomprehensible logic. Sometimes, simply having a sufficiently large data-set lets very productive approximations of solutions to be made. As it turns out, most hard problems can be reduced to much more manageable ones provided a programmer is willing to give up a constraint or two - in this case the requirement that a solution be deterministic and exact. The naive promise, and subsequently the doomed use-case, of big data is that if you collect "all the data", you'll be able to soar to a one-thousand foot view of the domain, see new patterns previously not noticed, and in general achieve breakthroughs in hard problems that people have yet to formulate concrete solutions to. With big data, you can cure cancer and stop terrorism. Provided you actually know what you're looking for - provided you know what should go into that SQL query. 
 
+The Problem with "Big Data" is that it requires "Big Judgment". Data is just a raw and inert material sitting on a disk. In order to make use of it, some kind of interpretation on the part of the programmer is necessary, and that means it's possible to assume that certain properties of said data are \emph{not} necessary for modeling. Worse still, there can be entire categories properties, relationships, and conditional dependencies that are not necessarily known by the programmer at first. There's incomplete knowledge and things get messy. What would be nice is if we had a way to model a domain without necessarily needing to understand it all up-front. And using Bayesian inference on the back-ends of our tools and programming languages, we can.
 
+\subsection{Enter the Probabilistic Paradigm}
+
+Bayesian Inference's main application is in dealing with domains where changes in data are either unpredictable or expected to change over time. Bayesian networks provide natural ways to predict and infer missing data in data sets, detect anomalies and questionable data entries in pre-existing data sets, and dynamically model a belief-oriented knowledge representation of a given domain - one which needs to be able to change and adapt to new information as it is made available. But all of this is yet another tool in the typical machine learning toolbox. What makes Bayesian inference unique is that it is currently be leveraged in inference engines and solvers that power probabilistic programming languages, a set of languages currently under active research actively funded by DARPA, mainly due to the promise of a more generalized way of talking about statistical and probabilistic computation without having to rely on ad hoc libraries in other non-probabilistic programming languages. The main attraction, the holy grail, is to provide programmers with languages that let them implement complex machine learning algorithms and models, without necessarily suffering from the innate complexity that typically comes from implementing such systems from the ground up.
+
+By far the most exciting application of Bayesian inference and networks is in the current research towards a general-purpose probabilistic programming language. 
+Languages like Venture\cite{Mansinghka2014}, Figaro, Church\cite{Church2012}, and Haraku are trying to fuse the typically expressive and DSL-friendly nature of functional programming languages with the naturally high-level and abstract nature of probabilistic programming. Pretty much all of these languages are research oriented, though, and not intended for real-world work (yet).
+Venture is a probabilistic programming language that's attempting to be one of the first truly useful general-purpose probabilistic programming languages to break out of the ivory tower. Though currently in its early stages of being developed by a research team at MIT, Venture is trying to find the right balance between the theoretical power of some of its research contemporaries, while still providing the veneer and temperament of a more mainstream programming language. Probabilistic programming doesn't just come in the form of new languages. There are also interesting tools coming out that build off of Bayesian inference in order to provide a probabilistic programming environment, such as BayesDB: a DB that can be queried like a typical database, only it's designed to give users access to the probable "implications" of their data, rather than the data itself.\cite{Mansinghka2015}
+
+One issue currently facing probabilistic programming languages is the topic of efficiency/computational complexity vs. expressiveness. Probabilistic programming languages tend to be either DSLs, very high-level and general, and/or deploy tactics and solvers in order to automate some of the inherent complexity that comes with the mountains of routine statistical work needed in probabilistic programs and machine learning in general. In order for such features to exist (and such features are quite desirable), the programming environment/implementation needs to put a significant layer of abstraction over the actual computer a program will have to run on at the end of the day. This doesn't so much cause issue in how fast a probabilistic program can be (a sufficiently smart implementation can always optimize away the differences), but instead reveals an unfortunate symptom of high-level programming in general, which is that the idioms of probabilistic programming languages are not naturally inline with the idioms of performance-conscious code. So while a program \emph{could} be made fast, there is nothing intuitive or reasonable about such an optimization \emph{in the context of the language's model of computation}. Indeed, Bayesian inference, which powers the solver engine often powering probabilistic programming languages, has some complexity limitations when in comes to learning.\cite{FriedmanG96}
 
 \bibliographystyle{plain}
 \bibliography{sources}
