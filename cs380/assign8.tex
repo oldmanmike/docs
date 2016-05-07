@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{amsmath}
+\title{Theory of Computation \\ Assignment 8}
+\author{Michael Carpenter}
+\date{\today}
+\begin{document}
+\maketitle
+
+\begin{itemize}
+  \item \textbf{8.1 - } Using Savitch's theorem, we can convert a two tape read-only input TM into a single tape TM, thus showing that the space complexity class SPACE(f(n)) is the same regardless which one you use. We can define a procedure CANYIELD that takes the configuration of a two tape Turing machine. We then solve the yieldability problem, using the proof from theorem 8.5.
+    $CANYIELD_{T}$ = "On input $c_{1}$, $c_{2}$, and t, where $c_{1}$ and $c_{2}$ are two tape Turing machine configurations consisting of state, the work tape, and the positions of the two tape heads.
+    \begin{itemize}
+      \item 1. If $t = 1$, then test for $c_{1} = c_{2}$. Accept if test succeeds; reject if both fail.
+      \item 2. If $t > 1$, then for each config $c_{m}$ of $T$ using space f(log(n)):
+        \begin{itemize}
+          \item 3. Run CANYIELD($c_{1}$,$c_{m}$,$\frac{t}{2}$).
+          \item 4. Run CANYIELD($c_{m}$,$c_{2}$,$\frac{t}{2}$).
+          \item 5. If 3 and 4 both accept, accept.
+        \end{itemize}
+      \item 6. If haven't yet accepted, reject."
+    \end{itemize}
+    $M$ = "On input w:
+    \begin{itemize}
+      \item 1. Output the result of CANYIELD($c_{start}$,$c_{accept}$,$2^{f(log(n))}$)
+    \end{itemize}
+    Due to the ability of the work tape to provide sub-linear space, we get a space complexity of $O(2^{df(log(n))})$, which boils down to $O(log2^{df(n)})$, which further boils down to $0(f(n))$. Therefore, we get the same space usage as a single tape TM.
+  \item \textbf{8.4 - } \\
+    For Union:\\
+    $V_{U}$ = "On input $\langle A, B \rangle$:
+    \begin{itemize}
+      \item 1. Construct TMs $M_{A}$ and $M_{B}$ that decide $A$ and $B$.
+      \item 2. Run $M_{A}$ and $M_{B}$ on $A$ and $B$ respectively.
+      \item 3. If $M_{A}$ accepts or $M_{B}$ accepts, accept; otherwise reject.
+    \end{itemize}
+    If both TMs are decidable in polynomial space, then the union will decide in the polynomial space of either one. PSPACE is closed for union.
+    \\
+    For complement:\\
+    $V_{C}$ = "On input $\langle A \rangle$:
+    \begin{itemize}
+      \item 1. Construct a TM $M_{A}$ that decides $A$.
+      \item 2. Run $M_{A}$ on $A$.
+      \item 3. If $M_{A}$ accepts, reject; if reject, accept."
+    \end{itemize}
+    If the TM $A$ decides in a polynomial space $n$, then the complement of that will be the same polynomial space plus a constant cost to inverse the answer. PSPACE is closed for complements.
+    \\
+    For star:\\
+    $V_{S}$ = "On input $\langle A, B \rangle$:
+    \begin{itemize}
+      \item 1. Construct TM $M_{C}$ that decides $A * B$.
+      \item 2. Run $M_{C}$ on $A * B$.
+      \item 3. If $M_{C}$ accepts, accept; if reject, reject."
+    \end{itemize}
+    If the TM $A$ decides in a polynomial space $n$ and the TM $B$ decides in the polynomial space $m$, then the star of the two polynomial spaces would be $n*m$. In the case 
+  \item \textbf{8.6 - } We know that for any $B$ in $NP$, $B$ is also in PSPACE. If $B$ is PSPACE-hard that means it is not in PSPACE, but every $A$ in PSPACE is polynomial time reducable to $B$. If $B$ is already known to by PSPACE-hard, that is it's not in PSPACE but every $A$ in PSPACE is polynomial time reducible to $B$, then we know that $B$ must also be NP-hard because that which is not in PSPACE is also not in NP and if every $A$ in PSPACE is polynomial time reducible to $B$, then every $C$ in NP is polynomial time reducible to $B$ as well as every $C$ in NP is also in PSPACE. Therefore, any PSPACE-hard language also qualifies as a NP-hard language.
+  \item \textbf{8.8 - } \\
+    $V_{EQ}$ = "On input $\langle R, S \rangle$:
+    \begin{itemize}
+      \item 1. Convert regular expression $R$ and $S$ to equivalent NFAs $A$ and $B$, respectively, using theorem 1.54.
+      \item 2. Convert $A$ and $B$ into DFAs $C$ and $D$.
+      \item 3. Place a marker on the start state of both $C$ and $D$.
+      \item 4. Repeat for $2^{q}$ where $q$ is the number of states in $C$:
+        \begin{itemize}
+          \item 5. Deterministically select an input symbol and change the position of the markers on $C$ and $D$'s states to simulate the reading of that symbol.
+        \end{itemize}
+      \item 6. Repeat for $2^{j}$ where $j$ is the number of states in $D$:
+        \begin{itemize}
+          \item 7. Deterministically select an input symbol and change the position of the markers on $C$ and $D$'s states to simulate the reading of that symbol.
+        \end{itemize}
+      \item 7. If stages 4, 5, 6, and 7 accept the input string, accept. Otherwise, reject.
+    \end{itemize}
+    Here we cycle through all the states of $C$ and $D$ to see if there is a point where an input is valid in one but not the other. If $C$ can simulate $D$ on all states and $D$ can simulate $C$ on all input states, then they are equivalent. The space complexity of this TM is $O(2^{q+j})$, for some constant $q$ and $j$. Thus, the computation is decidable in polynomial space on a deterministic Turing machine. As such, $EQ_{REX}$ is a member of PSPACE.
+  \item \textbf{8.17 - } We can show that $A$ is in $L$ by constructing two tape TM that uses its work tape to create a stack. Upon encountering a '(', it pushes a '(' on the stack, when it encounters a ')', it pops a '(' off the stack. A valid input string is one where the TM never encounters a ')' without at least one '(' on the stack already, otherwise it rejects. The only space we use on the work tape is in the worst case equal to the number of '('s encountered in the string, so half a valid input strings actual length. This can get shorter for input strings with lots of nested parentheses. For instance, a string of "(()(()))()" and length 10 will only produce a stack of as large as 3 '('s at any given time. So $A$ is in $L$, because we can track our progress in deciding an input string with significantly less space than the length of the input string. Furthermore, a TM deciding $A$ is deterministic, either the parentheses match up or they don't. So $A$ is in $L$. 
+\end{itemize}
+
+\end{document}
